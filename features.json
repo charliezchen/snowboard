@@ -92,7 +92,7 @@
   },
   {
     "name": "comparison-ui-and-explanatory-content",
-    "status": "planned",
+    "status": "finished",
     "goal": "Build the user-facing experience for comparing Ikon Base and Ikon Pass, including resort lists, blackout-date visibility, filters, and concise explanatory content that makes the recommendation understandable.",
     "criteria": [
       "The site presents a direct Ikon Base vs Ikon Pass comparison above the fold.",
@@ -102,7 +102,13 @@
     ],
     "deliverables_dir": "out/comparison-ui-and-explanatory-content/",
     "log": "agent_log/comparison-ui-and-explanatory-content-log.md",
-    "progress": [],
+    "progress": [
+      "Created app/components/PassComparison.tsx: client component with region selector, blackout-sensitive toggle, recommendation card, resort table with checkboxes, access filter tabs, and search input",
+      "Updated app/page.tsx: server component that imports resorts/regions/defaultRegion and passes to PassComparison",
+      "Fixed scoring bug in lib/recommend.ts: FULL_THRESHOLD lowered from 9 to 5 so two moderate factors (blackout + region trigger) correctly flip to full pass recommendation",
+      "Fixed summary copy: corrected base-pass access description to '5 days at most resorts' and '~8 unlimited no-blackout' resorts; corrected full-pass bullets to '7-day access' for Alta/Aspen/Deer Valley/Jackson Hole/Snowbasin/Sun Valley",
+      "Build passes (next build), TypeScript clean (tsc --noEmit), codex exec review: all P1/P2 findings resolved"
+    ],
     "notes": "The UI should lead with the decision, then justify it. Resort tables are supporting evidence, not the whole product. Keep the content concise and specific rather than marketing-heavy."
   },
   {

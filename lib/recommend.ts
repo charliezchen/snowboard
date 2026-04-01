@@ -83,7 +83,7 @@ const WEIGHT: Record<RecommendationFactor["weight"], number> = {
  * Calibrated so a single excluded-resort hit is decisive, while borderline
  * cases (blackout sensitivity alone, no specific resorts named) default Base.
  */
-const FULL_THRESHOLD = 9;
+const FULL_THRESHOLD = 5;
 
 // ---------------------------------------------------------------------------
 // Factor builders — one per distinct recommendation signal
