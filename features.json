@@ -25,7 +25,7 @@
   },
   {
     "name": "ikon-access-data-model-and-ingest",
-    "status": "planned",
+    "status": "finished",
     "goal": "Create the canonical local dataset for Ikon Base vs Ikon Pass access using official sources, including resort availability, access limitations, and blackout-date information.",
     "criteria": [
       "A typed schema exists for resorts, pass access, blackout dates, and regional metadata.",
@@ -35,7 +35,16 @@
     ],
     "deliverables_dir": "out/ikon-access-data-model-and-ingest/",
     "log": "agent_log/ikon-access-data-model-and-ingest-log.md",
-    "progress": [],
+    "progress": [
+      "Fetched 2025-26 blackout dates from palisadestahoe.com, mammothmountain.com, bigskyresort.com — confirmed Dec 27-31 2025, Jan 17-18 2026, Feb 14-15 2026",
+      "Identified 6 base-excluded resorts (Alta, Aspen, Deer Valley, Jackson Hole, Snowbasin, Sun Valley) and 4 Bonus Mountains (full-only, 2-day)",
+      "Updated lib/types.ts: ResortAccess, BlackoutWindow, BlackoutSchedule types; removed stale top-level baseDays/hasBlackouts fields",
+      "Created app/data/resorts.ts: 59 resorts across all access tiers for 2025-26",
+      "Created app/data/blackoutDates.ts: BlackoutSchedule data with getBasePassBlackouts() helper",
+      "Created lib/validate.ts: validateResorts(), validateBlackoutSchedules(), validateAll()",
+      "Created docs/ikon-sources.md: full source traceability document with update guidance",
+      "Build passes (next build), TypeScript no errors (tsc --noEmit)"
+    ],
     "notes": "Do not rely on memory for resort lists or blackout dates. Use current official Ikon sources and normalize them into app-owned structured data. The data model should be durable enough to support future season updates."
   },
   {
