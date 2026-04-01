@@ -70,7 +70,7 @@
   },
   {
     "name": "recommendation-logic-and-decision-framework",
-    "status": "planned",
+    "status": "finished",
     "goal": "Implement opinionated recommendation logic that tells users when Ikon Base is probably enough and when Ikon Pass is worth paying more for, based on resort access, blackout tolerance, and region-aware usage patterns.",
     "criteria": [
       "The app exposes a clear recommendation framework rather than only raw tables.",
@@ -80,7 +80,14 @@
     ],
     "deliverables_dir": "out/recommendation-logic-and-decision-framework/",
     "log": "agent_log/recommendation-logic-and-decision-framework-log.md",
-    "progress": [],
+    "progress": [
+      "Created lib/recommend.ts: RecommendationInputs, RecommendationFactor, DetailedRecommendation types",
+      "Implemented getRecommendation(inputs, resortMap): pure function with 3 full-pass signals (excluded resort, blackout conflict, region trigger) and base-sufficiency baseline",
+      "Implemented getDefaultRecommendation(region, resortMap): region-only mode for initial page state",
+      "Scoring model: strong=10, moderate=3, weak=1; FULL_THRESHOLD=9 (one strong or two moderate flips to full)",
+      "Rationale builder: surfaces full-factor details in strength order; base case uses region framing",
+      "TypeScript clean (tsc --noEmit), build passes (next build), codex exec review: no actionable findings"
+    ],
     "notes": "Bias toward useful advice. A likely baseline heuristic: recommend Ikon Base unless the user strongly values blackout-free peak dates, specific full-pass-only resorts, or a travel pattern that materially benefits from the full pass."
   },
   {
