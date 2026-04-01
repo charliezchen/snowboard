@@ -1,0 +1,101 @@
+[
+  {
+    "name": "product-brief-and-app-scaffold",
+    "status": "finished",
+    "goal": "Create the initial Next.js + TypeScript app scaffold for a pass-comparison website, define the product brief in code-adjacent docs/config, and prepare the repo structure for a Vercel deployment.",
+    "criteria": [
+      "A Next.js + TypeScript application is scaffolded and runs locally.",
+      "The repo includes the core app structure for pages, components, and data files.",
+      "A concise product brief captures the target user, default NYC region behavior, supported common regions, and the app's decision-support goal.",
+      "The project is prepared for Vercel deployment with a clean install and build path."
+    ],
+    "deliverables_dir": "out/product-brief-and-app-scaffold/",
+    "log": "agent_log/product-brief-and-app-scaffold-log.md",
+    "progress": [
+      "Scaffolded Next.js 16 + TypeScript + Tailwind via create-next-app",
+      "Created app/components/, app/data/, lib/ directory structure",
+      "Wrote lib/types.ts with typed schema stubs for Resort, Region, PassRecommendation",
+      "Replaced default page.tsx with pass-comparison landing copy (NYC default framing)",
+      "Updated layout.tsx metadata (title/description) to match app purpose",
+      "Created docs/product-brief.md covering target user, regions, heuristics, Vercel deployment notes",
+      "Verified clean npm install and production build (next build passes, static export at /)",
+      "Audit (codex exec review --uncommitted) run; stale metadata fixed per findings"
+    ],
+    "notes": "Default stack assumption: Next.js on Vercel with TypeScript. The app should not be a neutral spreadsheet; it should guide users toward Ikon Base or Ikon Pass using explicit heuristics and copy. NYC is the default region, but common alternates should be available via a region selector."
+  },
+  {
+    "name": "ikon-access-data-model-and-ingest",
+    "status": "planned",
+    "goal": "Create the canonical local dataset for Ikon Base vs Ikon Pass access using official sources, including resort availability, access limitations, and blackout-date information.",
+    "criteria": [
+      "A typed schema exists for resorts, pass access, blackout dates, and regional metadata.",
+      "Official Ikon source pages are identified and recorded in the codebase or logs for traceability.",
+      "The dataset clearly distinguishes full access, limited access, excluded resorts, and blackout-date applicability for each pass.",
+      "Validation catches malformed or incomplete data before the app consumes it."
+    ],
+    "deliverables_dir": "out/ikon-access-data-model-and-ingest/",
+    "log": "agent_log/ikon-access-data-model-and-ingest-log.md",
+    "progress": [],
+    "notes": "Do not rely on memory for resort lists or blackout dates. Use current official Ikon sources and normalize them into app-owned structured data. The data model should be durable enough to support future season updates."
+  },
+  {
+    "name": "region-modeling-and-user-value-signals",
+    "status": "planned",
+    "goal": "Model common user home regions and attach practical value signals so the site can rank which resorts matter most for each region instead of presenting an undifferentiated master list.",
+    "criteria": [
+      "NYC is implemented as the default region with a defensible nearby/destination resort framing.",
+      "Additional common regions are supported with documented assumptions.",
+      "Each region has enough metadata to power useful sorting or highlighting, such as likely drive-to resorts versus flight destinations.",
+      "The app can surface region-aware value signals that feed into pass recommendations."
+    ],
+    "deliverables_dir": "out/region-modeling-and-user-value-signals/",
+    "log": "agent_log/region-modeling-and-user-value-signals-log.md",
+    "progress": [],
+    "notes": "This task is where product judgment matters. For NYC users, the recommendation should emphasize realistic East Coast usage patterns and note when the full pass only becomes worthwhile because of specific destination priorities or blackout sensitivity."
+  },
+  {
+    "name": "recommendation-logic-and-decision-framework",
+    "status": "planned",
+    "goal": "Implement opinionated recommendation logic that tells users when Ikon Base is probably enough and when Ikon Pass is worth paying more for, based on resort access, blackout tolerance, and region-aware usage patterns.",
+    "criteria": [
+      "The app exposes a clear recommendation framework rather than only raw tables.",
+      "Recommendation logic accounts for blackout dates, excluded resorts, and meaningful region-specific resort value.",
+      "Users can see the rationale behind a recommendation in plain language.",
+      "The logic is structured so that future tuning can happen without rewriting the UI."
+    ],
+    "deliverables_dir": "out/recommendation-logic-and-decision-framework/",
+    "log": "agent_log/recommendation-logic-and-decision-framework-log.md",
+    "progress": [],
+    "notes": "Bias toward useful advice. A likely baseline heuristic: recommend Ikon Base unless the user strongly values blackout-free peak dates, specific full-pass-only resorts, or a travel pattern that materially benefits from the full pass."
+  },
+  {
+    "name": "comparison-ui-and-explanatory-content",
+    "status": "planned",
+    "goal": "Build the user-facing experience for comparing Ikon Base and Ikon Pass, including resort lists, blackout-date visibility, filters, and concise explanatory content that makes the recommendation understandable.",
+    "criteria": [
+      "The site presents a direct Ikon Base vs Ikon Pass comparison above the fold.",
+      "Users can browse resorts by pass access and see blackout-date implications.",
+      "Region selection changes the framing or prioritization of resorts and recommendations.",
+      "The UI works well on desktop and mobile and avoids generic placeholder presentation."
+    ],
+    "deliverables_dir": "out/comparison-ui-and-explanatory-content/",
+    "log": "agent_log/comparison-ui-and-explanatory-content-log.md",
+    "progress": [],
+    "notes": "The UI should lead with the decision, then justify it. Resort tables are supporting evidence, not the whole product. Keep the content concise and specific rather than marketing-heavy."
+  },
+  {
+    "name": "github-sync-and-vercel-launch",
+    "status": "planned",
+    "goal": "Initialize Git if needed, connect the codebase to GitHub, deploy the site to Vercel, and verify the production build.",
+    "criteria": [
+      "The project is a Git repository with coherent commits for the completed work.",
+      "A GitHub remote is configured and the codebase is pushed successfully.",
+      "The project is deployed on Vercel with a successful production build.",
+      "Deployment details and any required environment or operational notes are documented."
+    ],
+    "deliverables_dir": "out/github-sync-and-vercel-launch/",
+    "log": "agent_log/github-sync-and-vercel-launch-log.md",
+    "progress": [],
+    "notes": "This task depends on having a destination GitHub repository or a way to create one. Keep deployment simple and static-friendly where possible."
+  }
+]
