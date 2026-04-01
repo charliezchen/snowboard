@@ -66,8 +66,46 @@ export type RegionId =
 export interface Region {
   id: RegionId;
   label: string;
-  driveToStates: string[];
+  /**
+   * Resort tags (from Resort.tags) that identify drive-to resorts for this region.
+   * Matched against the resort dataset at runtime to build the drive-to list.
+   */
+  driveToTags: string[];
+  /**
+   * Explicit resort IDs worth calling out as key destination (typically fly-to) picks.
+   * Subset of the full resort list; intended for recommendation framing, not an exhaustive index.
+   */
   destinationResortIds: string[];
+  /**
+   * Resort IDs (typically base-excluded full-pass-only resorts) that are the primary
+   * reasons a user in this region would upgrade from Base to Full.
+   */
+  fullPassTriggers: string[];
+  /**
+   * Approximate drive time in hours to the nearest decent Ikon resort for this region.
+   * Null if there are no practical drive-to options.
+   */
+  nearestDriveHours: number | null;
+  /**
+   * Plain-language framing (1–2 sentences) of the Base vs Full decision for this region.
+   * Used as default copy in recommendation UI.
+   */
+  framing: string;
+}
+
+/**
+ * Pre-computed value signals for a region, derived from region + resort data.
+ * Consumed by recommendation logic and UI display.
+ */
+export interface RegionValueSignals {
+  /** Number of drive-to Ikon resorts for this region. */
+  driveToCount: number;
+  /** Whether the region has any practical drive-to options. */
+  hasDriveOptions: boolean;
+  /** Full-pass-only resorts most likely to justify an upgrade for this region. */
+  fullPassTriggerResorts: Resort[];
+  /** Plain-language framing from the region definition. */
+  framing: string;
 }
 
 export interface PassRecommendation {

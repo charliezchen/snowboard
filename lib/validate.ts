@@ -5,7 +5,7 @@
  * in tests to catch malformed entries before they reach the UI.
  */
 
-import type { Resort, BlackoutSchedule, ResortAccess, AccessType } from "./types";
+import type { Resort, BlackoutSchedule, ResortAccess, AccessType, Region } from "./types";
 
 // ---------------------------------------------------------------------------
 // ResortAccess
@@ -145,8 +145,70 @@ export function validateBlackoutSchedules(schedules: BlackoutSchedule[]): void {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Region
+// ---------------------------------------------------------------------------
+
+/**
+ * Validates region definitions against the resort dataset.
+ * Checks that all resort IDs referenced in destinationResortIds and
+ * fullPassTriggers exist in the provided resort map.
+ */
+export function validateRegions(regions: Region[], resortMap: Map<string, Resort>): void {
+  const allErrors: ValidationError[] = [];
+
+  const seenIds = new Set<string>();
+  for (const region of regions) {
+    if (seenIds.has(region.id)) {
+      allErrors.push({ id: region.id, field: "id", message: "Duplicate region id" });
+    }
+    seenIds.add(region.id);
+
+    if (!region.label || region.label.trim() === "") {
+      allErrors.push({ id: region.id, field: "label", message: "label is required" });
+    }
+    if (!region.framing || region.framing.trim() === "") {
+      allErrors.push({ id: region.id, field: "framing", message: "framing is required" });
+    }
+    if (!Array.isArray(region.driveToTags)) {
+      allErrors.push({ id: region.id, field: "driveToTags", message: "driveToTags must be an array" });
+    }
+
+    for (const resortId of region.destinationResortIds) {
+      if (!resortMap.has(resortId)) {
+        allErrors.push({
+          id: region.id,
+          field: "destinationResortIds",
+          message: `Resort id "${resortId}" not found in resort dataset`,
+        });
+      }
+    }
+
+    for (const resortId of region.fullPassTriggers) {
+      if (!resortMap.has(resortId)) {
+        allErrors.push({
+          id: region.id,
+          field: "fullPassTriggers",
+          message: `Resort id "${resortId}" not found in resort dataset`,
+        });
+      }
+    }
+  }
+
+  if (allErrors.length > 0) {
+    const lines = allErrors.map((e) => `  [${e.id}] ${e.field}: ${e.message}`).join("\n");
+    throw new Error(`Region data validation failed:\n${lines}`);
+  }
+}
+
 /** Run all validations. Call this once at app startup or in tests. */
-export function validateAll(resorts: Resort[], schedules: BlackoutSchedule[]): void {
+export function validateAll(
+  resorts: Resort[],
+  schedules: BlackoutSchedule[],
+  regions: Region[]
+): void {
   validateResorts(resorts);
   validateBlackoutSchedules(schedules);
+  const resortMap = new Map(resorts.map((r) => [r.id, r]));
+  validateRegions(regions, resortMap);
 }

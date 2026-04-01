@@ -49,7 +49,7 @@
   },
   {
     "name": "region-modeling-and-user-value-signals",
-    "status": "planned",
+    "status": "finished",
     "goal": "Model common user home regions and attach practical value signals so the site can rank which resorts matter most for each region instead of presenting an undifferentiated master list.",
     "criteria": [
       "NYC is implemented as the default region with a defensible nearby/destination resort framing.",
@@ -59,7 +59,13 @@
     ],
     "deliverables_dir": "out/region-modeling-and-user-value-signals/",
     "log": "agent_log/region-modeling-and-user-value-signals-log.md",
-    "progress": [],
+    "progress": [
+      "Enhanced lib/types.ts: Region now has driveToTags, destinationResortIds, fullPassTriggers, nearestDriveHours, framing; added RegionValueSignals interface",
+      "Created app/data/regions.ts: 7 regions (nyc default, boston, chicago, denver, la, seattle, bay-area) with documented assumptions",
+      "Created lib/regionUtils.ts: getDriveToResorts, getDestinationResorts, getFullPassTriggerResorts, getRegionValueSignals, sortResortsByRegionRelevance helpers",
+      "Updated lib/validate.ts: validateRegions() and updated validateAll() signature to include regions",
+      "Build passes (next build), TypeScript clean (tsc --noEmit), codex exec review --uncommitted: no actionable findings"
+    ],
     "notes": "This task is where product judgment matters. For NYC users, the recommendation should emphasize realistic East Coast usage patterns and note when the full pass only becomes worthwhile because of specific destination priorities or blackout sensitivity."
   },
   {
