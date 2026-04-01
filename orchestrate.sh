@@ -23,8 +23,11 @@ print('ALL_DONE')
 
   claude \
     --print \
+    --verbose \
     --model claude-sonnet-4-6 \
     --dangerously-skip-permissions \
+    --output-format stream-json \
+    --include-partial-messages \
     --max-turns 200 \
     -p "$(cat <<EOF
 You are working on the task named "$TASK" in features.json.
@@ -42,7 +45,42 @@ You are working on the task named "$TASK" in features.json.
    - Commit progress
    - Exit
 EOF
-)"
+)" | python3 -c "
+import json
+import sys
+
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        continue
+    try:
+        msg = json.loads(line)
+    except json.JSONDecodeError:
+        continue
+
+    if msg.get('type') == 'stream_event':
+        event = msg.get('event', {})
+        if event.get('type') == 'content_block_delta':
+            delta = event.get('delta', {})
+            text = delta.get('text')
+            if text:
+                sys.stdout.write(text)
+                sys.stdout.flush()
+        continue
+
+    if msg.get('type') == 'assistant':
+        sys.stdout.write('\n')
+        sys.stdout.flush()
+        continue
+
+    if msg.get('type') == 'result' and msg.get('subtype') == 'success':
+        sys.stdout.write(
+            '\n=== Claude run finished in '
+            + str(msg.get('duration_ms', '?'))
+            + ' ms ===\n'
+        )
+        sys.stdout.flush()
+"
 
   echo "=== Agent for $TASK exited ==="
 done

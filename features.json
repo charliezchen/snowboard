@@ -113,7 +113,7 @@
   },
   {
     "name": "github-sync-and-vercel-launch",
-    "status": "planned",
+    "status": "finished",
     "goal": "Initialize Git if needed, connect the codebase to GitHub, deploy the site to Vercel, and verify the production build.",
     "criteria": [
       "The project is a Git repository with coherent commits for the completed work.",
@@ -123,7 +123,13 @@
     ],
     "deliverables_dir": "out/github-sync-and-vercel-launch/",
     "log": "agent_log/github-sync-and-vercel-launch-log.md",
-    "progress": [],
+    "progress": [
+      "This is user's comments: you should use vercel mcp. vercel cli constantly asks me (the human) to authorize. It's annoying",
+      "Created GitHub repo charliezchen/snowboard, pushed all commits to main branch",
+      "Verified Vercel production deployment (dpl_Apn3ZnqiQVgmiH3PQvHwS3emyoT5) is READY at snowboard-mu.vercel.app",
+      "Build logs confirm: Next.js 16.2.2 Turbopack, compiled in 4.2s, TypeScript clean",
+      "Created docs/deployment.md with GitHub, Vercel, and operational notes"
+    ],
     "notes": "This task depends on having a destination GitHub repository or a way to create one. Keep deployment simple and static-friendly where possible."
   }
 ]
