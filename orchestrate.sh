@@ -30,7 +30,7 @@ print('ALL_DONE')
     --include-partial-messages \
     --max-turns 200 \
     -p "$(cat <<EOF
-You are working on the task named "$TASK" in features.json.
+You are working on the task named $TASK in features.json.
 
 1. Read features.json to understand the task, its criteria, and deliverables.
 2. Work to complete all criteria. Follow AGENTS.md and CLAUDE.md.
@@ -38,6 +38,7 @@ You are working on the task named "$TASK" in features.json.
 4. If you complete the task:
    - Mark its status as "finished" in features.json
    - Commit all changes (including features.json)
+   - vercel --prod
    - Exit
 5. If you cannot complete the task in this session:
    - Save progress: update the "progress" array in features.json

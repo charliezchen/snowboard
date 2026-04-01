@@ -131,5 +131,31 @@
       "Created docs/deployment.md with GitHub, Vercel, and operational notes"
     ],
     "notes": "This task depends on having a destination GitHub repository or a way to create one. Keep deployment simple and static-friendly where possible."
+  },
+  {
+    "name": "resort-map-visualization",
+    "status": "finished",
+    "goal": "Add a free-to-run resort map so users can understand geographic clustering, drive-to vs destination patterns, and which mountains matter for their selected region.",
+    "criteria": [
+      "The resort data model includes stable latitude/longitude fields for every mapped resort.",
+      "The UI includes a map view that renders resort markers and stays in sync with region selection, search, and access filters.",
+      "Marker styling or popups make Base-included, Full-only, blackout-sensitive, and selected resorts easy to distinguish.",
+      "The implementation uses a free map stack with correct attribution and an explicit low-cost hosting posture."
+    ],
+    "deliverables_dir": "out/resort-map-visualization/",
+    "log": "agent_log/resort-map-visualization-log.md",
+    "progress": [
+      "Added lat/lng fields to Resort type in lib/types.ts",
+      "Added coordinates (WGS 84) to all 59 resorts in app/data/resorts.ts",
+      "Added lat/lng validation to lib/validate.ts",
+      "Installed leaflet, react-leaflet, @types/leaflet",
+      "Created app/components/ResortMap.tsx: dynamic-import Leaflet map with color-coded CircleMarkers, popups with access details, add-to-list button",
+      "Integrated map into PassComparison between recommendation card and resort table, synced with region/filter/search state",
+      "Added legend below map for marker color meaning",
+      "Fixed orchestrate.sh hardcoded task name (codex audit P1)",
+      "Fixed map filtering to show all filtered resorts including international (codex audit P1)",
+      "Build passes (next build), TypeScript clean (tsc --noEmit)"
+    ],
+    "notes": "Start by extending the Resort type and app/data/resorts.ts records with lat/lng coordinates; the current dataset is not geo-enabled, so map rendering should not begin until coordinates are added and validated. Prefer a simple client-side marker map rather than a heavy GIS feature set. The default implementation path should be Leaflet plus react-leaflet because it is free, mature, and sufficient for a resort marker UI. The map should sit above or alongside the existing resort table and reuse the current filtering state so users do not see two disconnected browsing systems. Marker colors or icons should distinguish Base-included resorts, Full-pass-only resorts, blackout-sensitive resorts, and resorts the user has explicitly selected. Popups should show at least resort name, state/province, and Base vs Full access summary. For tile/data sourcing, do not treat the default OpenStreetMap community tile server as an unlimited production CDN; use proper attribution and keep usage modest. For a small hobby-scale deployment, OpenStreetMap tiles are acceptable if the implementation follows the tile usage policy and includes attribution. If the site is expected to get more meaningful public traffic, prefer a still-free stack with MapLibre and a free vector-tile source instead of assuming continued reliance on the default OSM tile server. Keep the code structured so the tile provider can be swapped later without rewriting the UI."
   }
 ]

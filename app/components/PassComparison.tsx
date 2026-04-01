@@ -5,6 +5,7 @@ import type { Resort, Region } from "@/lib/types";
 import type { DetailedRecommendation } from "@/lib/recommend";
 import { getRecommendation } from "@/lib/recommend";
 import { sortResortsByRegionRelevance, getResortAccessMode } from "@/lib/regionUtils";
+import { ResortMap } from "@/app/components/ResortMap";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -314,6 +315,26 @@ export function PassComparison({ resorts, regions, defaultRegionId }: Props) {
 
       {/* Recommendation */}
       <RecommendationCard rec={recommendation} regionLabel={region.label} />
+
+      {/* Resort map */}
+      <div>
+        <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 mb-3">
+          Resort map
+        </h3>
+        <ResortMap
+          resorts={filteredResorts}
+          region={region}
+          wantedResortIds={wantedResortIds}
+          onToggleWant={toggleWant}
+        />
+        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+          <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-full bg-green-600" /> Base included</span>
+          <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-full bg-amber-500" /> Base w/ blackouts</span>
+          <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-full bg-red-600" /> Full pass only</span>
+          <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-full bg-purple-600" /> Bonus</span>
+          <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-full bg-blue-600" /> Selected</span>
+        </div>
+      </div>
 
       {/* Resort browser */}
       <div>

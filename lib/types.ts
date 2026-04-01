@@ -28,6 +28,10 @@ export interface Resort {
   state: string;
   /** ISO 3166-1 alpha-2 country code */
   country: string;
+  /** Latitude in decimal degrees (WGS 84). */
+  lat: number;
+  /** Longitude in decimal degrees (WGS 84). */
+  lng: number;
   base: ResortAccess;
   full: ResortAccess;
   /** Region tags for drive-to / destination classification. */

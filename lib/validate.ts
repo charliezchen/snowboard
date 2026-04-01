@@ -76,6 +76,13 @@ function validateResort(resort: Resort): ValidationError[] {
     errs.push({ id, field: "base.type", message: '"bonus" is a full-pass-only tier; base must use "excluded" for non-eligible resorts' });
   }
 
+  if (typeof resort.lat !== "number" || resort.lat < -90 || resort.lat > 90) {
+    errs.push({ id, field: "lat", message: "lat must be a number between -90 and 90" });
+  }
+  if (typeof resort.lng !== "number" || resort.lng < -180 || resort.lng > 180) {
+    errs.push({ id, field: "lng", message: "lng must be a number between -180 and 180" });
+  }
+
   errs.push(...validateAccess(id, "base", resort.base));
   errs.push(...validateAccess(id, "full", resort.full));
 
